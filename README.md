@@ -1,42 +1,24 @@
 # HCM-KS26-CNTT2_Nhap-mon-CNTT_Session10_Ex05
 
-#  Dự án Smart-Farm
+# Dự án Smart-Farm
+Hệ thống tự động chăm sóc hoa Lan.
 
-![Sơ đồ Smart Farm](https://via.placeholder.com/800x400.png?text=Smart+Farm "Sơ đồ hệ thống")
+## 1. Tính năng chính
+- Đo nhiệt độ/độ ẩm.
+- Tự động tưới nước.
+- Gửi tin nhắn cảnh báo.
 
-## 1. Tính năng
-- [x] Thu thập dữ liệu môi trường.
-- [x] Tự động tưới tiêu.
-- [ ] Gửi tin nhắn cảnh báo.
+## 2. Cấu trúc thiết bị (Mô hình IPO)
+- **Đầu vào (Input):** Cảm biến đo dữ liệu môi trường.
+- **Xử lý (Processing):** Mạch Raspberry Pi tính toán dữ liệu.
+- **Đầu ra (Output):** Máy bơm phun nước.
 
-## 2. Phần cứng (Mô hình IPO)
-| Thành phần (IPO) | Thiết bị | Chức năng |
-| :--- | :--- | :--- |
-| **Input** | Cảm biến DHT22 | Đọc nhiệt độ, độ ẩm |
-| **Processing** | SoC Raspberry Pi 4 | Phân tích dữ liệu |
-| **Output** | Bơm chìm 12V | Bơm nước |
-
-## 3. Cài đặt
-git clone [https://github.com/GreenTech/smart-farm.git](https://github.com/GreenTech/smart-farm.git)
-cd smart-farm
-python3 main_controller.py
-
+## 3. Cách chạy
+Tải mã nguồn về máy và gõ lệnh chạy file python.
 
 ## 4. Nguyên lý hoạt động
+- **Hoạt động của chip (CPU):** Lấy lệnh -> Dịch hiểu lệnh -> Cấp điện cho máy bơm chạy.
+- **Logic ra quyết định (DIKW):** Đọc được số liệu -> Hiểu là 36 độ C và đất rất khô -> Nhận định cây đang thiếu nước -> Quyết định bật máy bơm ngay lập tức.
 
-> **Chu kỳ lệnh CPU khi bật máy bơm (Fetch–Decode–Execute):**
-> Lấy lệnh từ RAM (Fetch) ➔ Dịch thành tín hiệu điện (Decode) ➔ Cấp điện 3.3V ra chân GPIO để chạy bơm (Execute).
-
-**Ứng dụng DIKW:**
-
-* **Data:** 36, 30.
-* **Information:** Nhiệt độ 36°C, độ ẩm 30%.
-* **Knowledge:** Trời đang quá nóng và khô đối với hoa Lan.
-* **Wisdom:** Ra lệnh bật máy bơm ngay lập tức để cứu cây.
-
-## 5. Bảo trì (Lỗi đầy RAM)
-
-Khi hệ thống chạy lâu, file log sẽ làm đầy RAM gây treo máy. **Tuyệt đối không dùng lệnh xóa đệ quy ổ C**. Xử lý an toàn như sau:
-
-Set-Location ".\logs"
-Remove-Item -Path "*.log" -Force
+## 5. Lưu ý bảo trì
+Máy chạy lâu sẽ lưu nhiều file nhật ký (log) gây đầy RAM và treo máy. Chỉ cần vào đúng thư mục chứa log để xóa các file cũ là được, tuyệt đối không gõ lệnh xóa sạch toàn bộ ổ đĩa.
